@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.edtest.xcpbuttonlistenerservice">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,14 +13,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <receiver
             android:name=".XCPButtonReceiver"
             android:permission="com.samsung.android.knox.permission.KNOX_CUSTOM_SETTING"
-            android:process=":service"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.edtest.xcpbuttonlistenerservice.intent.action.PTT_PRESS" />

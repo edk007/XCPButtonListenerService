@@ -21,34 +21,35 @@ public class XCPButtonReceiver extends BroadcastReceiver {
     public static final String TOP_PRESS = "com.edtest.xcpbuttonlistenerservice.intent.action.TOP_PRESS";
     public static final String TOP_RELEASE = "com.edtest.xcpbuttonlistenerservice.intent.action.TOP_RELEASE";
 
-    XCPButtonReceiver() {
-        Log.w(TAG, TAG2 + "RECEIVER_CREATED");
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.w(TAG, TAG2 + "ON_RECEIVE");
 
+        String status = "BLANK";
+
         if (PTT_PRESS.equals(intent.getAction())) {
             // XCover key pressed
             Log.w(TAG, TAG2 + "XCP_PTT_KEY_PRESSED");
-            XCPButtonActionService.enqueueWork(context,"XCP_KEY_PRESSED");
+            XCPButtonActionService.enqueueWork(context,"XCP_PTT_KEY_PRESSED");
+            status = "XCP_KEY_PRESSED";
         }
         else if (PTT_RELEASE.equals(intent.getAction())) {
             //XCover Key Released
             Log.w(TAG, TAG2 + "XCP_PTT_KEY_RELEASED");
             XCPButtonActionService.enqueueWork(context,"XCP_PTT_KEY_RELEASED");
+            status = "XCP_PTT_KEY_RELEASED";
         }
         else if (TOP_PRESS.equals(intent.getAction())) {
             // XCover key pressed
             Log.w(TAG, TAG2 + "XCP_TOP_KEY_PRESSED");
             XCPButtonActionService.enqueueWork(context,"XCP_TOP_KEY_PRESSED");
+            status = "XCP_TOP_KEY_PRESSED";
         }
         else if (TOP_RELEASE.equals(intent.getAction())) {
             //XCover Key Released
             Log.w(TAG, TAG2 + "XCP_TOP_KEY_RELEASED");
             XCPButtonActionService.enqueueWork(context,"XCP_TOP_KEY_RELEASED");
+            status = "XCP_TOP_KEY_RELEASED";
         }
-
     }
 }
