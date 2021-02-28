@@ -8,7 +8,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,9 +21,6 @@ public class XCPButtonActionService extends JobIntentService {
 
     public static final String XCP_BAS_SERVICE_STATUS = "com.edtest.xcpbuttonlistenerservice.STATUS";
     public static final String XCP_BAS_BROADCAST_ACTION = "com.edtest.xcpbuttonlistenerservice.BROADCAST";
-
-    public static final String LOCAL_ACTION = "LOCAL_ACTION";
-    public static final String LOCAL_MESSAGE = "LOCAL_MESSAGE";
 
     static final int JOB_ID = 1000;
 
@@ -46,7 +42,6 @@ public class XCPButtonActionService extends JobIntentService {
         Log.w(TAG, TAG2 + msLogStatus);
         writeToFile("TIME_STAMP: " + ts + ", " + System.currentTimeMillis() + " " + status + "\n");
         sendAppBroadcast(this, msLogStatus);
-        sendLocalBroadcast(this, msLogStatus);
 
         //turn the light on and off for the PTT key press and release as a test
         String mCameraId = null;
@@ -57,14 +52,14 @@ public class XCPButtonActionService extends JobIntentService {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
-        if (status.equals("XCP_PTT_KEY_PRESSED")) {
+        if (status.equals("PTT_KEY_PRESSED")) {
             Log.w(TAG, TAG2 + "TORCH_ON");
             try {
                 mCameraManager.setTorchMode(mCameraId,true);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
-        } else if (status.equals("XCP_PTT_KEY_RELEASED")) {
+        } else if (status.equals("PTT_KEY_RELEASED")) {
             Log.w(TAG, TAG2 + "TORCH_OFF");
             try {
                 mCameraManager.setTorchMode(mCameraId,false);
@@ -72,9 +67,6 @@ public class XCPButtonActionService extends JobIntentService {
                 e.printStackTrace();
             }
         }
-
-        //TODO determine if it's a long press or a short press
-
     }
 
     @Override
@@ -105,13 +97,6 @@ public class XCPButtonActionService extends JobIntentService {
             Log.w(TAG,TAG2 + "WRITING_FILE_OUTPUT_FAIL");
             e.printStackTrace();
         }
-    }
-
-    private void sendLocalBroadcast(Context context, String string) {
-        Log.w(TAG,TAG2 + "SENDING_LOCAL_BROADCAST");
-        Intent intent = new Intent(LOCAL_ACTION);
-        intent.putExtra(LOCAL_MESSAGE, string);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     private void sendAppBroadcast(Context context, String string) {

@@ -31,16 +31,32 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOCAL_ACTION = "LOCAL_ACTION";
     public static final String LOCAL_MESSAGE = "LOCAL_MESSAGE";
 
+/*  REMOVE_UI
     ArrayList<String> buttonActions;
     ListView listView;
     ArrayAdapter arrayAdapter;
 
     XCPButtonReceiver xcpButtonReceiver;
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO eventually remove all UI and this is just a service
+
+        //it's not necessary to launch this app if we use the KSP button intents to trigger the BroadcastReceiver
+        setContentView(R.layout.activity_main2);
+
+        //use a handler and runnable to popup a loading screen - can be branded
+        Handler splashHandler = new Handler(Looper.getMainLooper());
+        splashHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // This method will be executed once the timer is over
+                finish();
+            }
+        }, 2000);
+
+/*  REMOVE_UI
         setContentView(R.layout.activity_main);
 
         listView = findViewById(R.id.listView);
@@ -54,12 +70,15 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiveLocalBroadcast, new IntentFilter(LOCAL_ACTION));
         registerReceiver(receiveAppBroadcast, new IntentFilter(XCP_BAS_BROADCAST_ACTION));
+*/
+
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
 
+/*  REMOVE_UI
         Log.w(TAG, TAG2 + "ON_POST_RESUME");
         xcpButtonReceiver = new XCPButtonReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -68,15 +87,20 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction(TOP_PRESS);
         intentFilter.addAction(TOP_RELEASE);
         registerReceiver(xcpButtonReceiver,intentFilter);
+*/
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+/*  REMOVE_UI
         unregisterReceiver(xcpButtonReceiver);
+*/
+
     }
 
+/*  REMOVE_UI
     private BroadcastReceiver receiveLocalBroadcast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -102,5 +126,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+*/
 
 }
